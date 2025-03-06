@@ -7,15 +7,15 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-scene.background = new THREE.Color(20, 20, 150);
+scene.background = new THREE.Color(0.2, 0.2, 0.7);
 
 
 const light = new THREE.AmbientLight( 0x404040 ); // soft white light
-scene.add( light );
+//scene.add( light );
 
 // White directional light at half intensity shining from the top.
 const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
-scene.add( directionalLight );
+//scene.add( directionalLight );
 
 const light2 = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
 scene.add( light2 );
@@ -26,8 +26,12 @@ const cube = new THREE.Mesh( geometry, material );
 scene.add( cube );
 
 camera.position.z = 5;
-var p = new Player(renderer.domElement, 2.0, camera).setup();
+const p = new Player(renderer.domElement, 2.0, camera);
+p.setup();
+
+
 function animate() {
+    p.update();
     cube.rotateX(THREE.MathUtils.degToRad(1));
 	renderer.render( scene, camera );
 }

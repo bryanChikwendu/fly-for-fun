@@ -109,34 +109,31 @@ export class Player {
     _moveForward(s: number){
         // Calculate "Forward Vector", add it to position * speed
         var forward = new THREE.Vector3(Math.cos( THREE.MathUtils.degToRad(this.dir)),0,Math.sin(THREE.MathUtils.degToRad(this.dir)));
+        forward.normalize();
         forward.multiplyScalar(s);
         this.group.position.add(forward);
     }
 
     _calcCamera(){
-        // Calculate "Tail Vector"
-        var backward = new THREE.Vector3(Math.cos( THREE.MathUtils.degToRad(this.dir)),
-                                         0,
-                                         Math.sin(THREE.MathUtils.degToRad(this.dir)))
-                                         .multiplyScalar(-1.5);
-        
-        var camPos = backward.clone().add(new THREE.Vector3(0,
-                                                            1,
-                                                            -3));
-        camPos.add(this.model.position);
-        this.camera.position.copy(camPos);
+        // Camera position : Inverted look direction
+        const vector = new THREE.Vector3();
+        this.camera.getWorldDirection(vector);
+        vector.negate().normalize();
+        vector.add(this.group.position);
+        vector.y += 0.5;
+        this.camera.position.copy(vector);
     }
 
     update(){
         
         
         if(this.input.f){
-            this._moveForward(-0.2);
+            this._moveForward(-0.05);
         } else if (this.input.b){
-            this._moveForward(0.2);
+            this._moveForward(0.05);
         }
         
-        
+        if(!this.input.b){
         if (this.input.l){
             this.dir--;
             if (this.dir < 0){
@@ -148,11 +145,23 @@ export class Player {
                 this.dir = 0;
             }
         }
-
- 
+    } else {
+        if (this.input.l){
+            this.dir++;
+            if (this.dir >= 360){
+                this.dir = 0;
+            }
+        } else if (this.input.r){
+            this.dir--;
+            if (this.dir < 0){
+                this.dir = 359;
+            }
+        }
+    }
+        
         
         this.group.setRotationFromAxisAngle(new THREE.Vector3(0, -1, 0), THREE.MathUtils.degToRad(this.dir + 90))
-        //this._calcCamera();
+        this._calcCamera();
     }
 }
 

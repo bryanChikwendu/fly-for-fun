@@ -4,7 +4,10 @@ export class Player {
     focused;
     speed = 0.05;
     input = {f: false, b: false};
-    constructor(canvas, sens: number, camera){
+    canvas: HTMLCanvasElement;
+    sens: number;
+    camera: THREE.Camera;
+    constructor(canvas, sens, camera){
         this.canvas = canvas;
         this.focused = false;
         this.sens = sens;
@@ -47,7 +50,7 @@ export class Player {
         }
     }
 
-    setup(scene){
+    setup(scene: THREE.Scene){
         document.addEventListener("pointerlockchange", (event) => {
             if (document.pointerLockElement === this.canvas) {
                 console.log("The pointer lock status is now locked");

@@ -26,8 +26,9 @@ const cube = new THREE.Mesh( geometry, material );
 scene.add( cube );
 
 camera.position.z = 5;
+
 const p = new Player(renderer.domElement, 2.0, camera);
-p.setup();
+p.setup(scene);
 
 
 function animate() {

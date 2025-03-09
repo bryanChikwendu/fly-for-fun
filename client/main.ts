@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import {Player} from "./player.js"
+import "./comms.js"
+import { connect } from './comms.js';
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
@@ -29,7 +31,7 @@ camera.position.z = 5;
 
 const p = new Player(renderer.domElement, 2.0, camera);
 p.setup(scene);
-
+connect(p.group.position.x, p.group.position.y, p.group.position.z);
 
 function animate() {
     p.update();

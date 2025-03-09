@@ -11,13 +11,13 @@ export class Player {
 
     group : THREE.Group
     model : THREE.Mesh
+
+    ws : WebSocket
     constructor(canvas, sens, camera){
         this.canvas = canvas;
         this.focused = false;
         this.sens = sens;
         this.camera = camera;
-
-       
     }
 
     handleMouseP(event){
@@ -163,6 +163,7 @@ export class Player {
         this.group.setRotationFromAxisAngle(new THREE.Vector3(0, -1, 0), THREE.MathUtils.degToRad(this.dir + 90))
         this._calcCamera();
     }
+
 }
 
 
